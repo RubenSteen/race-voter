@@ -10,20 +10,20 @@ import {
 } from "@heroicons/vue/20/solid";
 
 const props = defineProps({
-    tracks: Object,
+    cars: Object,
 });
 </script>
 
 <template>
-    <Head title="Tracks" />
+    <Head title="Cars" />
 
     <DefaultLayout>
-        <template #headerName> Tracks </template>
+        <template #headerName> Cars </template>
 
         <template #headerButton>
             <span class="ml-3">
                 <Link
-                    :href="route('track.create')"
+                    :href="route('car.create')"
                     type="button"
                     class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
@@ -31,7 +31,7 @@ const props = defineProps({
                         class="-ml-1 mr-2 h-5 w-5 text-gray-400"
                         aria-hidden="true"
                     />
-                    Add track
+                    Add car
                 </Link>
             </span>
         </template>
@@ -76,22 +76,19 @@ const props = defineProps({
                                     <tbody
                                         class="divide-y divide-gray-200 bg-white"
                                     >
-                                        <tr
-                                            v-for="track in tracks"
-                                            :key="track.id"
-                                        >
+                                        <tr v-for="car in cars" :key="car.id">
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                                             >
-                                                {{ track.name }}
+                                                {{ car.name }}
                                             </td>
                                             <td
                                                 class="whitespace-nowrap px-3 py-4 text-sm text-purple-500"
                                             >
                                                 <a
-                                                    :href="track.source"
+                                                    :href="car.source"
                                                     target="_blank"
-                                                    >{{ track.source }}</a
+                                                    >{{ car.source }}</a
                                                 >
                                             </td>
                                             <td
@@ -100,14 +97,13 @@ const props = defineProps({
                                                 <Link
                                                     :href="
                                                         route(
-                                                            'track.edit',
-                                                            track.id
+                                                            'car.edit',
+                                                            car.id
                                                         )
                                                     "
                                                     class="text-indigo-600 hover:text-indigo-900"
                                                     >Edit<span class="sr-only"
-                                                        >,
-                                                        {{ track.name }}</span
+                                                        >, {{ car.name }}</span
                                                     ></Link
                                                 >
                                             </td>

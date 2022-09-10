@@ -40,28 +40,14 @@ const user = {
     imageUrl:
         "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
+
 const navigation = [
     { name: "Vote", href: route("suggest.index"), current: false },
     { name: "Cars", href: route("car.index"), current: false },
     { name: "Tracks", href: route("track.index"), current: false },
 ];
+
 const userNavigation = [{ name: "Sign out", href: "#" }];
-
-const publishingOptions = [
-    {
-        name: "Published",
-        description:
-            "This job posting can be viewed by anyone who has the link.",
-        current: true,
-    },
-    {
-        name: "Draft",
-        description: "This job posting will no longer be publicly accessible.",
-        current: false,
-    },
-];
-
-const selected = ref(publishingOptions[0]);
 </script>
 
 <template>
@@ -159,7 +145,11 @@ const selected = ref(publishingOptions[0]);
                             </button> -->
 
                             <!-- Profile dropdown -->
-                            <Menu as="div" class="relative ml-3 flex-shrink-0">
+                            <Menu
+                                v-if="$page.props.auth.user"
+                                as="div"
+                                class="relative ml-3 flex-shrink-0"
+                            >
                                 <div>
                                     <MenuButton
                                         class="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50"
@@ -169,8 +159,10 @@ const selected = ref(publishingOptions[0]);
                                         >
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            :src="user.imageUrl"
-                                            alt=""
+                                            :src="
+                                                $page.props.auth.user.getAvatar()
+                                            "
+                                            alt="Profile picture"
                                         />
                                     </MenuButton>
                                 </div>
@@ -211,7 +203,7 @@ const selected = ref(publishingOptions[0]);
                 class="border-b border-gray-200 bg-gray-50 lg:hidden"
             >
                 <div class="space-y-1 px-2 pt-2 pb-3">
-                    <DisclosureButton
+                    <Link
                         v-for="item in navigation"
                         :key="item.name"
                         as="a"
@@ -221,7 +213,7 @@ const selected = ref(publishingOptions[0]);
                             'block px-3 py-2 rounded-md font-medium text-gray-900',
                         ]"
                         :aria-current="item.current ? 'page' : undefined"
-                        >{{ item.name }}</DisclosureButton
+                        >{{ item.name }}</Link
                     >
                 </div>
                 <div class="border-t border-gray-200 pt-4 pb-3">
@@ -250,13 +242,13 @@ const selected = ref(publishingOptions[0]);
                         </button> -->
                     </div>
                     <div class="mt-3 space-y-1 px-2">
-                        <DisclosureButton
+                        <Link
                             v-for="item in userNavigation"
                             :key="item.name"
                             as="a"
                             :href="item.href"
                             class="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-100"
-                            >{{ item.name }}</DisclosureButton
+                            >{{ item.name }}</Link
                         >
                     </div>
                 </div>

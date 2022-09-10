@@ -21,7 +21,7 @@ class TrackController extends Controller
         ->map(fn ($track) => [
             'id' => $track->id,
             'name' => $track->name,
-            'image' => $track->image,
+            'image' => $track->getImage(),
             'source' => $track->source,
         ]);
 
@@ -51,7 +51,7 @@ class TrackController extends Controller
         $validatedData = $request->validate([
             'name' => ['required', 'string'],
             'image' => ['nullable', 'image'],
-            'source' => ['nullable', 'string'],
+            'source' => ['nullable', 'url'],
         ]);
 
         Track::create($validatedData);
@@ -68,6 +68,7 @@ class TrackController extends Controller
     public function edit(Track $track)
     {
         $track = [
+            'id' => $track->id,
             'name' => $track->name,
             'image' => $track->image,
             'source' => $track->source,
@@ -90,7 +91,7 @@ class TrackController extends Controller
         $validatedData = $request->validate([
             'name' => ['required', 'string'],
             'image' => ['nullable', 'image'],
-            'source' => ['nullable', 'string'],
+            'source' => ['nullable', 'url'],
         ]);
 
         $track->update($validatedData);

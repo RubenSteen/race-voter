@@ -10,15 +10,19 @@ import {
     ExclamationCircleIcon,
 } from "@heroicons/vue/20/solid";
 
+const props = defineProps({
+    car: Object,
+});
+
 const form = useForm({
-    name: "",
-    image: "",
-    source: "",
+    name: props.car.name,
+    image: props.car.image,
+    source: props.car.source,
 });
 
 const submit = () => {
     // https://inertiajs.com/manual-visits
-    form.post(route("track.store"), {
+    form.put(route("car.update", props.car.id), {
         onSuccess: () => {
             form.reset();
         },
@@ -27,10 +31,22 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Add a track" />
+    <Head title="Editing car" />
 
     <DefaultLayout>
-        <template #headerName> Add track </template>
+        <template #headerName> Editing {{ car.name }} </template>
+
+        <template #headerButton>
+            <Link
+                as="button"
+                method="delete"
+                :href="route('car.destroy', props.car.id)"
+                type="button"
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+                Delete
+            </Link>
+        </template>
 
         <div class="bg-white">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -44,7 +60,7 @@ const submit = () => {
                                 <h3
                                     class="text-lg font-medium leading-6 text-gray-900"
                                 >
-                                    Track information
+                                    Car information
                                 </h3>
                             </div>
 
@@ -56,7 +72,7 @@ const submit = () => {
                                         <label
                                             for="name"
                                             class="block text-sm font-medium text-gray-700"
-                                            >Track name</label
+                                            >Car name</label
                                         >
                                         <span
                                             class="text-sm text-gray-500"
@@ -110,7 +126,7 @@ const submit = () => {
                                         <label
                                             for="source"
                                             class="block text-sm font-medium text-gray-700"
-                                            >Track source</label
+                                            >Car source</label
                                         >
                                         <span
                                             class="text-sm text-gray-500"
@@ -156,75 +172,12 @@ const submit = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="pt-8">
-                        <div>
-                            <h3
-                                class="text-lg font-medium leading-6 text-gray-900"
-                            >
-                                Edit images
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">
-                                Edit ther images so they appear nicely on the
-                                website
-                            </p>
-                        </div>
-                        <div
-                            class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6"
-                        >
-                            <div class="sm:col-span-6">
-                                <label
-                                    for="cover-photo"
-                                    class="block text-sm font-medium text-gray-700"
-                                    >Images</label
-                                >
-                                <div
-                                    class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6"
-                                >
-                                    <div class="space-y-1 text-center">
-                                        <svg
-                                            class="mx-auto h-12 w-12 text-gray-400"
-                                            stroke="currentColor"
-                                            fill="none"
-                                            viewBox="0 0 48 48"
-                                            aria-hidden="true"
-                                        >
-                                            <path
-                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            />
-                                        </svg>
-                                        <div class="flex text-sm text-gray-600">
-                                            <label
-                                                for="file-upload"
-                                                class="relative cursor-pointer rounded-md bg-white font-medium text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-500 focus-within:ring-offset-2 hover:text-purple-500"
-                                            >
-                                                <span>Upload a file</span>
-                                                <input
-                                                    id="file-upload"
-                                                    name="file-upload"
-                                                    type="file"
-                                                    class="sr-only"
-                                                />
-                                            </label>
-                                            <p class="pl-1">or drag and drop</p>
-                                        </div>
-                                        <p class="text-xs text-gray-500">
-                                            PNG, JPG, GIF up to 10MB
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                     </div>
 
                     <div class="pt-5">
                         <div class="flex justify-end">
                             <Link
-                                :href="route('track.index')"
+                                :href="route('car.index')"
                                 as="button"
                                 type="button"
                                 class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
