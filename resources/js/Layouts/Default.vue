@@ -60,17 +60,19 @@ const userNavigation = [{ name: "Sign out", href: "#" }];
                 >
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <img
-                                class="h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=500"
-                                alt="Your Company"
-                            />
+                            <Link :href="route('home')">
+                                <img
+                                    class="h-8 w-auto"
+                                    src="https://tailwindui.com/img/logos/mark.svg?color=violet&shade=500"
+                                    alt="Your Company"
+                                />
+                            </Link>
                         </div>
 
                         <!-- Links section -->
                         <div class="hidden lg:ml-10 lg:block">
                             <div class="flex space-x-4">
-                                <a
+                                <Link
                                     v-for="item in navigation"
                                     :key="item.name"
                                     :href="item.href"
@@ -83,7 +85,7 @@ const userNavigation = [{ name: "Sign out", href: "#" }];
                                     :aria-current="
                                         item.current ? 'page' : undefined
                                     "
-                                    >{{ item.name }}</a
+                                    >{{ item.name }}</Link
                                 >
                             </div>
                         </div>
@@ -152,18 +154,22 @@ const userNavigation = [{ name: "Sign out", href: "#" }];
                             >
                                 <div>
                                     <MenuButton
-                                        class="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                        class="flex rounded-full bg-gray-50 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50 items-center"
                                     >
                                         <span class="sr-only"
                                             >Open user menu</span
                                         >
                                         <img
                                             class="h-8 w-8 rounded-full"
-                                            :src="
-                                                $page.props.auth.user.getAvatar()
-                                            "
+                                            :src="$page.props.auth.user.avatar"
                                             alt="Profile picture"
                                         />
+                                        <span
+                                            class="text-purple-400 ml-2 font-semibold"
+                                            >{{
+                                                $page.props.auth.user.name
+                                            }}</span
+                                        >
                                     </MenuButton>
                                 </div>
                                 <transition
@@ -194,6 +200,13 @@ const userNavigation = [{ name: "Sign out", href: "#" }];
                                     </MenuItems>
                                 </transition>
                             </Menu>
+
+                            <a
+                                v-else
+                                :href="route('login.discord')"
+                                class="whitespace-nowrap text-base font-medium text-purple-500 hover:text-purple-900 mr-2"
+                                >Sign in</a
+                            >
                         </div>
                     </div>
                 </div>
@@ -215,22 +228,28 @@ const userNavigation = [{ name: "Sign out", href: "#" }];
                         :aria-current="item.current ? 'page' : undefined"
                         >{{ item.name }}</Link
                     >
+                    <a
+                        v-if="!$page.props.auth.user"
+                        :href="route('login.discord')"
+                        class="font-medium text-purple-500 hover:text-purple-900 mr-2 block px-3 py-2 rounded-md"
+                        >Sign in</a
+                    >
                 </div>
-                <div class="border-t border-gray-200 pt-4 pb-3">
+                <div
+                    v-if="$page.props.auth.user"
+                    class="border-t border-gray-200 pt-4 pb-3"
+                >
                     <div class="flex items-center px-5">
                         <div class="flex-shrink-0">
                             <img
                                 class="h-10 w-10 rounded-full"
-                                :src="user.imageUrl"
+                                :src="$page.props.auth.user.avatar"
                                 alt=""
                             />
                         </div>
                         <div class="ml-3">
                             <div class="text-base font-medium text-gray-800">
-                                {{ user.name }}
-                            </div>
-                            <div class="text-sm font-medium text-gray-500">
-                                {{ user.email }}
+                                {{ $page.props.auth.user.name }}
                             </div>
                         </div>
                         <!-- <button

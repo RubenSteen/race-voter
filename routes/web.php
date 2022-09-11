@@ -6,6 +6,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\SuggestController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 /*
@@ -20,7 +21,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Redirect::route('suggest.index');
 })->name('home');
 
 Route::group(['middleware' => ['guest']], function () {
