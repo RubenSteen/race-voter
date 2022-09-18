@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\SuggestController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -48,6 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('car/{car}/edit', [CarController::class, 'edit'])->name('car.edit');
     Route::put('car/{car}', [CarController::class, 'update'])->name('car.update');
     Route::delete('car/{car}', [CarController::class, 'destroy'])->name('car.destroy');
+
+    Route::put('vote/{suggest}', [VoteController::class, 'store'])->name('vote.store');
+    Route::delete('vote', [VoteController::class, 'destroy'])->name('vote.destroy');
 
     Route::group(['middleware' => ['user.is.admin']], function () {
 

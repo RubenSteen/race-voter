@@ -7,6 +7,7 @@ use App\Models\Track;
 use App\Models\Car;
 use App\Models\Suggest;
 use Inertia\Inertia;
+use Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class SuggestController extends Controller
@@ -18,6 +19,8 @@ class SuggestController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
+
         $suggests = Suggest::orderBy('car_id')
         ->with('car', 'track')
         ->get()
@@ -37,6 +40,7 @@ class SuggestController extends Controller
 
         return Inertia::render('Suggest/Index', [
             'suggests' => $suggests,
+            'vote' => $user->vote()->exists() ? $user->vote : null,
         ]);
     }
 }

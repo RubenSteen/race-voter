@@ -7,6 +7,7 @@ import { MegaphoneIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
     suggests: Object,
+    vote: Object,
 });
 </script>
 
@@ -17,27 +18,6 @@ const props = defineProps({
         <template #headerName> Suggestions </template>
 
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="bg-purple-600">
-                <div class="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
-                    <div class="flex flex-wrap items-center justify-between">
-                        <div class="flex w-0 flex-1 items-center">
-                            <span class="flex rounded-lg bg-purple-800 p-2">
-                                <MegaphoneIcon
-                                    class="h-6 w-6 text-white"
-                                    aria-hidden="true"
-                                />
-                            </span>
-                            <p class="ml-3 font-medium text-white">
-                                <span
-                                    >You've already voted! you can still change
-                                    your vote</span
-                                >
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="mt-8 flex flex-col">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div
@@ -90,7 +70,29 @@ const props = defineProps({
                                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                                         >
                                             <Link
-                                                href="#"
+                                                v-if="
+                                                    vote !== null &&
+                                                    vote.suggest_id ==
+                                                        suggest.id
+                                                "
+                                                :href="route('vote.destroy')"
+                                                method="delete"
+                                                as="button"
+                                                class="text-red-600 hover:text-red-900"
+                                                >Unvote<span class="sr-only"
+                                                    >, {{ suggest.id }}</span
+                                                ></Link
+                                            >
+                                            <Link
+                                                v-else
+                                                :href="
+                                                    route(
+                                                        'vote.store',
+                                                        suggest.id
+                                                    )
+                                                "
+                                                method="put"
+                                                as="button"
                                                 class="text-indigo-600 hover:text-indigo-900"
                                                 >Vote<span class="sr-only"
                                                     >, {{ suggest.id }}</span

@@ -18,4 +18,9 @@ class Suggest extends Model
     {
         return $this->belongsTo(Track::class);
     }
+
+    public function vote()
+    {
+        return $this->hasOne(Vote::class);
+    }
 }

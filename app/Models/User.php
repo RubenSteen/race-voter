@@ -119,4 +119,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Suggest::class);
     }
+
+    public function vote()
+    {
+        return $this->hasOne(Vote::class);
+    }
+
+    public function removeVote()
+    {
+        return $this->vote()->delete();
+    }
 }
