@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->string('source')->nullable();
+            $table->string('dlc')->nullable();
+            $table->boolean('mod')->default(false);
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class CarFactory extends Factory
             'name' => fake()->userName(),
             'image' => fake()->imageUrl($width = 890, $height = 501, 'dogs'),
             'source' => fake()->url(),
+            'dlc' => rand(1,2) == 1 ? null : fake()->userName(),
         ];
     }
 }

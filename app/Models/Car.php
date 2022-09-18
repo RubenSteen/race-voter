@@ -18,10 +18,33 @@ class Car extends Model
         'name',
         'image',
         'source',
+        'dlc',
+        'mod',
     ];
 
-    public function getImage()
+    public function getImage($folder = 'cars')
     {
-        return $this->image != null ? asset('storage/images/' . $this->image) : asset('storage/images/default_track.png');
+        // The car has no image
+        if ($this->image == null) {
+            return asset("storage/assets/$folder/default_car.png");
+        }
+
+        // The car is not modded content (so is default Assetto Corsa content)
+        if ($this->mod == false) {
+            // The car is not part of a DLC
+            if ($this->dlc == null) {
+                return asset("storage/assets/$folder/Default/$this->image");
+            }
+    
+            // The car is part of a DLC
+            if ($this->dlc != null) {
+                return asset("storage/assets/$folder/$this->dlc/$this->image");
+            }
+        }
+
+        // The car is modded content
+        if ($this->mod == true) {
+            return asset("storage/assets/$folder/$this->image");
+        }
     }
 }

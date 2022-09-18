@@ -18,10 +18,33 @@ class Track extends Model
         'name',
         'image',
         'source',
+        'dlc',
+        'mod',
     ];
 
-    public function getImage()
+    public function getImage($folder = 'tracks')
     {
-        return $this->image != null ? asset('storage/images/' . $this->image) : asset('storage/images/default_track.png');
+        // The track has no image
+        if ($this->image == null) {
+            return asset("storage/assets/$folder/default_track.png");
+        }
+
+        // The track is not modded content (so is default Assetto Corsa content)
+        if ($this->mod == false) {
+            // The track is not part of a DLC
+            if ($this->dlc == null) {
+                return asset("storage/assets/$folder/Default/$this->image");
+            }
+    
+            // The track is part of a DLC
+            if ($this->dlc != null) {
+                return asset("storage/assets/$folder/$this->dlc/$this->image");
+            }
+        }
+
+        // The track is modded content
+        if ($this->mod == true) {
+            return asset("storage/assets/$folder/$this->image");
+        }
     }
 }

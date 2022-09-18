@@ -71,7 +71,10 @@ class CarController extends Controller
             'id' => $car->id,
             'name' => $car->name,
             'image' => $car->image,
+            'getImage' => $car->getImage(),
             'source' => $car->source,
+            'dlc' => $car->dlc,
+            'mod' => $car->mod,
         ];
 
         return Inertia::render('Car/Edit', [
