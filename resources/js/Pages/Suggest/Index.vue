@@ -8,6 +8,7 @@ import { MegaphoneIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 const props = defineProps({
     suggests: Object,
     vote: Object,
+    my_suggest: Object,
 });
 </script>
 
@@ -16,6 +17,29 @@ const props = defineProps({
 
     <DefaultLayout>
         <template #headerName> Suggestions </template>
+
+        <template #headerButton>
+            <span class="ml-3" v-if="my_suggest !== null">
+                <Link
+                    :href="route('suggest.destroy')"
+                    method="delete"
+                    as="button"
+                    type="button"
+                    class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                >
+                    Delete suggestion
+                </Link>
+            </span>
+            <span class="ml-3" v-else>
+                <Link
+                    :href="route('suggest.create')"
+                    type="button"
+                    class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                >
+                    Create suggestion
+                </Link>
+            </span>
+        </template>
 
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="mt-8 flex flex-col">

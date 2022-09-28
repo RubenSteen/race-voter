@@ -35,6 +35,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('suggestions', [SuggestController::class, 'index'])->name('suggest.index');
+    Route::get('suggestion/create', [SuggestController::class, 'create'])->name('suggest.create');
+    Route::post('suggestion', [SuggestController::class, 'store'])->name('suggest.store');
+    Route::delete('suggestion', [SuggestController::class, 'destroy'])->name('suggest.destroy');
 
     Route::get('tracks', [TrackController::class, 'index'])->name('track.index');
     Route::get('track/create', [TrackController::class, 'create'])->name('track.create');

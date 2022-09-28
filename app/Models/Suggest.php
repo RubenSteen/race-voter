@@ -9,6 +9,16 @@ class Suggest extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'car_id',
+        'track_id',
+    ];
+
     public function car()
     {
         return $this->belongsTo(Car::class);
