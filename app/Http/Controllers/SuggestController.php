@@ -53,7 +53,7 @@ class SuggestController extends Controller
     public function create()
     {
         if (Auth::user()->suggest()->exists()) {
-            redirect()->route('suggest.index');
+            return redirect()->route('suggest.index');
         }
 
         $tracks = Track::orderBy('name')
@@ -94,7 +94,7 @@ class SuggestController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->suggest()->exists()) {
-            redirect()->route('suggest.index');
+            return redirect()->route('suggest.index');
         }
 
         $validatedData = $request->validate([
