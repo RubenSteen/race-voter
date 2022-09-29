@@ -115,6 +115,11 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function polls()
+    {
+        return $this->hasMany(Poll::class);
+    }
+
     public function suggest()
     {
         return $this->hasOne(Suggest::class);

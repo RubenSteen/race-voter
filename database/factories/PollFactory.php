@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Suggest>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Poll>
  */
-class SuggestFactory extends Factory
+class PollFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,10 @@ class SuggestFactory extends Factory
     public function definition()
     {
         return [
-            'poll_id' => \App\Models\Poll::all()->random()->id,
+            'name' => fake()->userName(),
+            'open_at' => \Carbon\Carbon::now(),
+            'close_at' => \Carbon\Carbon::now()->addDays(1),
             'user_id' => \App\Models\User::all()->random()->id,
-            'car_id' => \App\Models\Car::all()->random()->id,
-            'track_id' => \App\Models\Track::all()->random()->id,
         ];
     }
 }

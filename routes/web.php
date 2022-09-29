@@ -6,6 +6,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\TrackController;
 use App\Http\Controllers\SuggestController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\PollController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -33,6 +34,12 @@ Route::group(['middleware' => ['guest']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('polls', [PollController::class, 'index'])->name('poll.index');
+    Route::get('poll/create', [PollController::class, 'create'])->name('poll.create');
+    Route::post('poll', [PollController::class, 'store'])->name('poll.store');
+    Route::get('poll/{poll}', [PollController::class, 'show'])->name('poll.show');
+    Route::delete('poll/{poll}', [PollController::class, 'destroy'])->name('poll.destroy');
 
     Route::get('suggestions', [SuggestController::class, 'index'])->name('suggest.index');
     Route::get('suggestion/create', [SuggestController::class, 'create'])->name('suggest.create');

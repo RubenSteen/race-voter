@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             CarSeeder::class,
             TrackSeeder::class,
             UserSeeder::class,
+            PollSeeder::class,
             SuggestSeeder::class,
+            VoteSeeder::class,
         ]);
     }
 }

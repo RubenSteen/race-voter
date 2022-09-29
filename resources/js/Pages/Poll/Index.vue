@@ -6,37 +6,24 @@ import { ChevronRightIcon } from "@heroicons/vue/20/solid";
 import { MegaphoneIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps({
-    suggests: Object,
-    vote: Object,
-    my_suggest: Object,
+    polls: Object,
 });
 </script>
 
 <template>
-    <Head title="Suggestions" />
+    <Head title="Polls" />
 
     <DefaultLayout>
-        <template #headerName> Suggestions </template>
+        <template #headerName> Polls </template>
 
         <template #headerButton>
-            <span class="ml-3" v-if="my_suggest !== null">
+            <span class="ml-3">
                 <Link
-                    :href="route('suggest.destroy')"
-                    method="delete"
-                    as="button"
-                    type="button"
-                    class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                >
-                    Delete suggestion
-                </Link>
-            </span>
-            <span class="ml-3" v-else>
-                <Link
-                    :href="route('suggest.create')"
+                    :href="route('poll.create')"
                     type="button"
                     class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
-                    Create suggestion
+                    Create poll
                 </Link>
             </span>
         </template>
@@ -57,81 +44,93 @@ const props = defineProps({
                                             scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                         >
-                                            Car
+                                            Name
                                         </th>
                                         <th
                                             scope="col"
                                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                         >
-                                            Track
+                                            Opens at
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                        >
+                                            Closes at
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                        >
+                                            Race date/time
                                         </th>
                                         <th
                                             scope="col"
                                             class="relative py-3.5 pl-3 pr-4 sm:pr-6"
                                         >
-                                            <span class="sr-only">Vote</span>
+                                            <span class="sr-only">Show</span>
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            class="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                                        >
+                                            <span class="sr-only">Delete</span>
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody
                                     class="divide-y divide-gray-200 bg-white"
                                 >
-                                    <tr
-                                        v-for="suggest in suggests"
-                                        :key="suggest.id"
-                                    >
+                                    <tr v-for="poll in polls" :key="poll.id">
                                         <td
-                                            :class="[
-                                                my_suggest &&
-                                                my_suggest.id == suggest.id
-                                                    ? 'text-purple-500'
-                                                    : 'text-gray-900',
-                                                'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6',
-                                            ]"
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6 text-gray-900"
                                         >
-                                            {{ suggest.car.name }}
+                                            {{ poll.name }}
                                         </td>
                                         <td
-                                            :class="[
-                                                my_suggest &&
-                                                my_suggest.id == suggest.id
-                                                    ? 'text-purple-500'
-                                                    : 'text-gray-900',
-                                                'whitespace-nowrap px-3 py-4 text-sm font-medium',
-                                            ]"
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6 text-gray-900"
                                         >
-                                            {{ suggest.track.name }}
+                                            {{ poll.open_at }}
+                                        </td>
+                                        <td
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6 text-gray-900"
+                                        >
+                                            {{ poll.close_at }}
+                                        </td>
+                                        <td
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-6 text-gray-900"
+                                        >
+                                            {{ poll.race_at }}
                                         </td>
                                         <td
                                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                                         >
                                             <Link
-                                                v-if="
-                                                    vote !== null &&
-                                                    vote.suggest_id ==
-                                                        suggest.id
+                                                :href="
+                                                    route('poll.show', poll.id)
                                                 "
-                                                :href="route('vote.destroy')"
+                                                as="button"
+                                                class="text-purple-600 hover:text-purple-900"
+                                                >Show<span class="sr-only"
+                                                    >, {{ poll.id }}</span
+                                                ></Link
+                                            >
+                                        </td>
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                                        >
+                                            <Link
+                                                :href="
+                                                    route(
+                                                        'poll.destroy',
+                                                        poll.id
+                                                    )
+                                                "
                                                 method="delete"
                                                 as="button"
                                                 class="text-red-600 hover:text-red-900"
-                                                >Unvote<span class="sr-only"
-                                                    >, {{ suggest.id }}</span
-                                                ></Link
-                                            >
-                                            <Link
-                                                v-else
-                                                :href="
-                                                    route(
-                                                        'vote.store',
-                                                        suggest.id
-                                                    )
-                                                "
-                                                method="put"
-                                                as="button"
-                                                class="text-indigo-600 hover:text-indigo-900"
-                                                >Vote<span class="sr-only"
-                                                    >, {{ suggest.id }}</span
+                                                >Delete<span class="sr-only"
+                                                    >, {{ poll.id }}</span
                                                 ></Link
                                             >
                                         </td>

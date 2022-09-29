@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('suggests', function (Blueprint $table) {
+        Schema::create('polls', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('poll_id');
+            $table->string('name');
+            $table->timestamp('race_at')->nullable();
+            $table->timestamp('open_at');
+            $table->timestamp('close_at');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('car_id');
-            $table->unsignedBigInteger('track_id');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suggests');
+        Schema::dropIfExists('polls');
     }
 };
